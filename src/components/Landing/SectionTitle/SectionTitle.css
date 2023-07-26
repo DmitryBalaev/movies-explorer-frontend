@@ -1,0 +1,19 @@
+.title {
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: -0.88px;
+  padding-bottom: 23px;
+  margin: 0;
+  border-bottom: 1px var(--color-border-da) solid;
+}
+
+@media screen and (max-width: 550px) {
+  .title {
+    font-size: 18px;
+    padding-bottom: 28px;
+    letter-spacing: -0.72px;
+  }
+  .tech > .title {
+    border-bottom: 1px var(--color-border-black) solid;
+  }
+}

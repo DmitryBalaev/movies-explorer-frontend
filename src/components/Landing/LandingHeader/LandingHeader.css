@@ -1,0 +1,109 @@
+.landing-header {
+  background-color: var(--color-background-blue07);
+  padding: 0 70px 60px;
+}
+
+.landing-header-wrapper {
+  background-image: url(../../../images/header-svg.svg);
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  width: 100%;
+  min-height: 100%;
+}
+
+.landing-header__nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 18px 0;
+  align-items: center;
+}
+
+.landing-header__logo {
+  background: url(../../../images/logo.svg) no-repeat center / contain;
+  height: 38px;
+  width: 38px;
+  cursor: pointer;
+}
+
+.landing-header__links {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.landing-header__link {
+  color: var(--color-text-white);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  text-decoration: none;
+  transition: all .2s ease;
+}
+
+.landing-header__link_login {
+  background-color: var(--color-button-green);
+  padding: 8px 20px;
+  color: var(--color-text-black);
+  border-radius: 3px;
+}
+
+.landing-header__title {
+  max-width: 620px;
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 52px;
+  letter-spacing: -1.6px;
+  padding: 50px 0 346px;
+  margin: 0;
+}
+
+@media (pointer: fine) {
+  .landing-header__link:hover {
+    opacity: 0.7;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .landing-header {
+    padding: 0 30px 70px;
+  }
+  .landing-header-wrapper {
+    background-size: contain;
+    background-position: bottom;
+  }
+  .landing-header__title {
+    text-align: center;
+    margin-inline: auto;
+    padding: 300px 0 370px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .landing-header {
+    padding: 0 0 40px;
+  }
+  .landing-header__nav {
+    padding: 18px 14px;
+  }
+  .landing-header__links {
+    gap: 14px;
+  }
+  .landing-header__link {
+    font-size: 10px;
+  }
+  .landing-header__link_login {
+    padding: 5px 12px;
+  }
+  .landing-header__title {
+    padding: 183px 0 290px;
+    font-size: 31px;
+    line-height: 39px;
+    letter-spacing: -1.24px;
+  }
+  .landing-header-wrapper {
+    background-size: unset;
+  }
+}
