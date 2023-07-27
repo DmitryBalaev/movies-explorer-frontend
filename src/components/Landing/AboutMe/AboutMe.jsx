@@ -1,3 +1,4 @@
+import React from 'react';
 import "./AboutMe.css";
 import SectionTitle from "../SectionTitle/SectionTitle"
 import photo from '../../../images/developer-img.png'

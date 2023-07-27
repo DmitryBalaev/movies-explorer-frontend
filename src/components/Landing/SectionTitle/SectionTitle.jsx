@@ -1,3 +1,4 @@
+import React from 'react';
 import './SectionTitle.css'
 
 function SectionTitle({ children }) {

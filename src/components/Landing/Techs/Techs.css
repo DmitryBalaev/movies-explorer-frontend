@@ -33,14 +33,17 @@
 }
 
 .tech__stack {
-  margin: 0;
+  margin: 0 ;
   padding: 0;
   padding-top: 100px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(90px), 1fr));
   gap: 10px;
   max-width: 100%;
+  /* если не установить ширину, в firefox блок выстраивается в одну колонку, вне зависимости от ширины экрана */
+  width: -moz-available;
   list-style: none;
+  justify-content: center;
   align-self: center;
 }
 
@@ -72,6 +75,7 @@
   .tech__stack {
     padding-top: 83px;
     gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(min(84px), 1fr));
   }
   .tech__stack-item {
     width: 84px;
@@ -100,5 +104,8 @@
   }
   .tech__stack {
     padding-top: 50px;
+    justify-content: unset;
+    justify-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(min(90px), 1fr));
   }
 }

@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./NavMenuPromo.css";
+import "./NavMenuAuth.css";
 
-function NavMenuPromo() {
+function NavMenuAuth() {
   return (
     <nav className="nav-promo">
       <ul className="nav-promo__links">
@@ -17,4 +17,4 @@ function NavMenuPromo() {
   );
 }
 
-export default NavMenuPromo;
+export default NavMenuAuth;

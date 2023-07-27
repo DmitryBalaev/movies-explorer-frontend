@@ -1,0 +1,32 @@
+.input {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input__input {
+  border-radius: 8px;
+  background: var(--color-background-input);
+  border: none;
+  outline: none;
+  color: var(--color-text-white);
+  padding: 15px;
+  font-size: 13px;
+}
+
+.input__input_type_error {
+  color: var(--color-text-red);
+}
+
+.input__placeholder {
+  color: var(--color-text-gray);
+  font-size: 10px;
+  font-weight: 400;
+}
+
+.input__error {
+  height: 10px;
+  color: var(--color-text-red);
+  font-size: 10px;
+  font-weight: 400;
+}
