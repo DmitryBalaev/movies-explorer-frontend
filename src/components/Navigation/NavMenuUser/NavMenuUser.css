@@ -72,6 +72,7 @@
   visibility: hidden;
   transform: translateX(-100%);
   transition: all .5s ease-in-out;
+  z-index: 1;
 }
 
 .burger__menu_opened {

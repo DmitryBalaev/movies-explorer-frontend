@@ -1,0 +1,128 @@
+.profile {
+  max-width: 410px;
+  width: 100%;
+  margin-inline: auto;
+  padding-top: 74px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile__title {
+  color: var(--color-text-white);
+  text-align: center;
+  font-size: 24px;
+  font-weight: 500;
+  margin: 0;
+  padding-bottom: 123px;
+}
+
+.profile__form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.profile__label {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 0;
+}
+
+.profile__label:not(:last-of-type) {
+  border-bottom: 1px solid var(--color-border-42);
+}
+
+.profile__span-input {
+  color: var(--color-text-white);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.profile__input {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: var(--color-text-white);
+  text-align: right;
+  font-size: 11px;
+  font-weight: 400;
+  max-width: 200px;
+  width: 85%;
+  align-self: flex-end;
+}
+
+.profile__span-responce-error {
+  padding-top: 183px;
+  padding-bottom: 20px;
+  color: var(--color-text-red);
+  text-align: center;
+  font-size: 11px;
+  font-weight: 400;
+  min-height: 14px;
+}
+
+.profile__btn-edit {
+  color: var(--color-text-white);
+  text-align: center;
+  font-size: 13px;
+  font-weight: 400;
+  background-color: transparent;
+  border: none;
+  margin-bottom: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.profile__btn-loguot {
+  color: var(--color-text-red);
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.profile__btn-save {
+  border-radius: 3px;
+  background: #3456f3;
+  color: var(--color-text-white);
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  padding: 14px 0 ;
+}
+
+@media (pointer: fine) {
+  .profile__btn-edit:hover,
+  .profile__btn-loguot:hover,
+  .profile__btn-save:hover {
+    opacity: 0.7;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .profile {
+    padding-top: 236px;
+  }
+  .profile__title {
+    padding-bottom: 96px;
+  }
+
+}
+
+@media screen and (max-width: 550px) {
+  .profile {
+    padding: 70px 30px 0;
+    max-width: 260px;
+  }
+  .profile__title {
+    padding-bottom: 80px;
+  }
+
+}

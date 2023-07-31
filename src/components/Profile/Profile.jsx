@@ -1,8 +1,26 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Profile.css'
 import Header from '../Header/Header';
+import { useNavigate } from 'react-router-dom';
 
-function Profile() {
+function Profile({ handleLogout }) {
+  const navigate = useNavigate()
+  const [ isShowSaveBtn, setIsShowSaveBtn ] = useState(false)
+
+  function handleEditBtnClick () {
+    setIsShowSaveBtn(true)
+  }
+
+  function handleSaveBtnClick (e) {
+    e.preventDefault()
+    setIsShowSaveBtn(false)
+  }
+
+  function handleLogoutBtnClick () {
+    handleLogout()
+    navigate('/')
+  }
+
   return (
     <>
     <Header/>
@@ -11,18 +29,21 @@ function Profile() {
       <form action="" className='profile__form' noValidate>
         <label htmlFor="name" className='profile__label'>
           <span className='profile__span-input'>Имя</span>
-          <input type="text" name="name" id="" value='Виталий' />
-          <span className='profile__span-error'></span>
+          <input type="text" name="name" id="" defaultValue='Виталий' className='profile__input'/>
         </label>
         <label htmlFor="email" className='profile__label'>
           <span className='profile__span-input'>Имя</span>
-          <input type="text" name="email" id="" value='pochta@yandex.ru' />
-          <span className='profile__span-error'></span>
+          <input type="text" name="email" id="" defaultValue='pochta@yandex.ru' className='profile__input'/>
         </label>
         <span className='profile__span-responce-error'></span>
-        <button className='profile__btn-edit'>Редактировать</button>
-        <button className='profile__btn-loguot'>Выйти из аккаунта</button>
-        <button className='profile__btn-save'>Сохранить</button>
+        {isShowSaveBtn ? (
+          <button type='submit' className='profile__btn-save' onClick={handleSaveBtnClick}>Сохранить</button>
+        ) : (
+        <>
+        <button type='button' className='profile__btn-edit' onClick={handleEditBtnClick}>Редактировать</button>
+        <button type='button' className='profile__btn-loguot' onClick={handleLogoutBtnClick}>Выйти из аккаунта</button>
+        </>
+        )}
       </form>
     </section>
     </>

@@ -1,24 +1,34 @@
 import { Route, Routes } from "react-router-dom";
-import Landing from "../Landing/Landing";
-import Register from "../Register/Register";
-import Login from "../Login/Login";
+import { LandingPage } from "../Landing/Landing.lazy";
+import { RegisterPage } from "../Register/Register.lazy";
+import { LoginPage } from "../Login/Login.lazy";
 import NotFound from "../NotFound/NotFound";
 import "./App.css";
 import { CurrentUserContext } from "../../Context/CurrentUserContext/CurrentUserContext";
-import { useState } from "react";
-import Profile from "../Profile/Profile";
+import { useState, Suspense } from "react";
+import { ProfilePage } from "../Profile/Profile.lazy";
+import { MoviesPage } from "../Movies/Movies.lazy";
+import { SavedMoviesPage } from "../SavedMovies/SavedMovies.lazy";
+import Preloader from "../Preloader/Preloader";
 
 function App() {
-  const [isAuth, setIsUath] = useState(true)
+  const [isAuth, setIsUath] = useState(true);
   return (
     <CurrentUserContext.Provider value={isAuth}>
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/signup" element={<Register />} />
-        <Route path="/signin" element={<Login />} />
-        <Route path="/profile" element={<Profile/>}/>
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <Suspense fallback={<Preloader />}>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/signup" element={<RegisterPage />} />
+          <Route path="/signin" element={<LoginPage />} />
+          <Route
+            path="/profile"
+            element={<ProfilePage handleLogout={() => setIsUath(false)} />}
+          />
+          <Route path="*" element={<NotFound />} />
+          <Route path="/movies" element={<MoviesPage />} />
+          <Route path="/saved-movies" element={<SavedMoviesPage />} />
+        </Routes>
+      </Suspense>
     </CurrentUserContext.Provider>
   );
 }
