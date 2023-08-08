@@ -32,7 +32,7 @@ function Profile({ handleLogout }) {
           <input type="text" name="name" id="" defaultValue='Виталий' className='profile__input'/>
         </label>
         <label htmlFor="email" className='profile__label'>
-          <span className='profile__span-input'>Имя</span>
+          <span className='profile__span-input'>E-mail</span>
           <input type="text" name="email" id="" defaultValue='pochta@yandex.ru' className='profile__input'/>
         </label>
         <span className='profile__span-responce-error'></span>

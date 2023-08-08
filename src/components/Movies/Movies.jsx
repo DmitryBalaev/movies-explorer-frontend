@@ -28,18 +28,18 @@ function Movies() {
       <Content>
         <SearchForm />
         <MoviesList>
-          <Movie img={img} name={'33 слова о дизайне'} duration={'1ч 47м'}/>
-          <Movie img={img1} name={'Киноальманах «100 лет дизайна»'} duration={'1ч 47м'}/>
-          <Movie img={img2} name={'В погоне за Бенкси'} duration={'1ч 47м'}/>
-          <Movie img={img3} name={'Баския: Взрыв реальности'} duration={'1ч 47м'}/>
-          <Movie img={img4} name={'Бег это свобода'} duration={'1ч 47м'}/>
-          <Movie img={img5} name={'Книготорговцы'} duration={'1ч 47м'}/>
-          <Movie img={img6} name={'Когда я думаю о Германии ночью'} duration={'1ч 47м'}/>
-          <Movie img={img7} name={'Gimme Danger: История Игги и The Stooge'} duration={'1ч 47м'}/>
-          <Movie img={img8} name={'Дженис: Маленькая девочка грустит'} duration={'1ч 47м'}/>
-          <Movie img={img9} name={'Соберись перед прыжком'} duration={'1ч 47м'}/>
-          <Movie img={img10} name={'Пи Джей Харви: A dog called money'} duration={'1ч 47м'}/>
-          <Movie img={img11} name={'По волнам: Искусство звука в кино'} duration={'1ч 47м'}/>
+          <Movie img={img} name={'33 слова о дизайне'} duration={'1ч 47м'} alt={'постер фильма 33 слова о дизайне'}/>
+          <Movie img={img1} name={'Киноальманах «100 лет дизайна»'} duration={'1ч 47м'} alt={'постер фильма Киноальманах «100 лет дизайна»'}/>
+          <Movie img={img2} name={'В погоне за Бенкси'} duration={'1ч 47м'} alt={'постер фильма В погоне за Бенкси'}/>
+          <Movie img={img3} name={'Баския: Взрыв реальности'} duration={'1ч 47м'} alt={'постер фильма Баския: Взрыв реальности'}/>
+          <Movie img={img4} name={'Бег это свобода'} duration={'1ч 47м'} alt={'постер фильма Бег это свобода'}/>
+          <Movie img={img5} name={'Книготорговцы'} duration={'1ч 47м'} alt={'постер фильма Книготорговцы'}/>
+          <Movie img={img6} name={'Когда я думаю о Германии ночью'} duration={'1ч 47м'} alt={'постер фильма Когда я думаю о Германии ночью'}/>
+          <Movie img={img7} name={'Gimme Danger: История Игги и The Stooge'} duration={'1ч 47м'} alt={'постер фильма Gimme Danger: История Игги и The Stooge'}/>
+          <Movie img={img8} name={'Дженис: Маленькая девочка грустит'} duration={'1ч 47м'} alt={'постер фильма Дженис: Маленькая девочка грустит'}/>
+          <Movie img={img9} name={'Соберись перед прыжком'} duration={'1ч 47м'} alt={'постер фильма Соберись перед прыжком'}/>
+          <Movie img={img10} name={'Пи Джей Харви: A dog called money'} duration={'1ч 47м'} alt={'постер фильма Пи Джей Харви: A dog called money'}/>
+          <Movie img={img11} name={'По волнам: Искусство звука в кино'} duration={'1ч 47м'} alt={'постер фильма По волнам: Искусство звука в кино'}/>
         </MoviesList>
       </Content>
       <Footer />

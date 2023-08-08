@@ -9,7 +9,7 @@
   font-size: 18px;
   font-weight: 400;
   line-height: 20px;
-  padding-bottom: 50px;
+  padding-bottom: 36px;
 }
 
 .portfolio__links {
@@ -66,6 +66,9 @@
   .portfolio {
     padding: 0 50px 80px;
   }
+  .portfolio__title {
+    padding-bottom: 26px;
+  }
 }
 
 @media screen and (max-width: 550px) {
@@ -75,10 +78,10 @@
   .portfolio__title {
     font-size: 14px;
     line-height: 20px;
-    padding-bottom: 40px;
+    padding-bottom: 24px;
   }
   .portfolio__link {
     font-size: 18px;
-    line-height: normal;
+    line-height: 24px;
   }
 }

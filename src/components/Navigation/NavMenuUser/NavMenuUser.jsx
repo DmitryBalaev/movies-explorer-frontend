@@ -42,11 +42,11 @@ function NavMenuUser() {
             </Link>
           </li>
         </ul>
-        <Link to="/profile" className="nav__link_profile">
+        <Link to="/profile" className="nav__link-profile">
           Аккаунт<span className="nav__link-icon"></span>
         </Link>
       </nav>
-      <button className="burger" onClick={onBurgerMenuOpen}></button>
+      <button className="burger-menu" onClick={onBurgerMenuOpen}></button>
       <div
         className={
           isBurgerMenuOpen ? "burger__menu burger__menu_opened" : "burger__menu"
@@ -95,7 +95,7 @@ function NavMenuUser() {
               </Link>
             </li>
             <li className="burger__links-item">
-              <Link to="/profile" className="nav__link_profile" onClick={onBurgerMenuClose}>
+              <Link to="/profile" className="nav__link-profile" onClick={onBurgerMenuClose}>
                 Аккаунт<span className="nav__link-icon"></span>
               </Link>
             </li>

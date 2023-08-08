@@ -12,7 +12,7 @@ import { SavedMoviesPage } from "../SavedMovies/SavedMovies.lazy";
 import Preloader from "../Preloader/Preloader";
 
 function App() {
-  const [isAuth, setIsUath] = useState(true);
+  const [isAuth, setIsUath] = useState(false);
   return (
     <CurrentUserContext.Provider value={isAuth}>
       <Suspense fallback={<Preloader />}>

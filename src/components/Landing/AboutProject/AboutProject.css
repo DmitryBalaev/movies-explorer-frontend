@@ -86,8 +86,8 @@
     padding: 70px 18px;
   }
   .about__list {
-    padding-top: 60px;
-    gap: 56px;
+    padding-top: 64px;
+    gap: 59px;
     flex-direction: column;
   }
   .about__list-item {
@@ -101,6 +101,7 @@
     line-height: 16px;
   }
   .about__status {
+    padding-top: 60px;
     grid-template-columns: 1fr 2fr;
   }
   .about__duration {

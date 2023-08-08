@@ -31,7 +31,7 @@ function Form({ handleChange, isRegister }) {
       <Input placeholder="E-mail" name="email" handleChange={handleChange} />
       <Input placeholder="Пароль" name="password" handleChange={handleChange} />
       <p className={isRegister ? 'form__responce-error' : 'form__responce-error form__responce-error_type_login'}></p>
-      <button type="submit" className="form__button">{texts.buttonText}</button>
+      <button type="submit" className={`form__button ${isRegister ? '' : 'form__button_login'}`}>{texts.buttonText}</button>
       <p className="from__question">
         {texts.descriptionText}
         <Link to={texts.linkPath} className="from__link">{texts.linkText}</Link>

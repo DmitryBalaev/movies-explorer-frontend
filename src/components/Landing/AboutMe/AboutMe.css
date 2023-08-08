@@ -67,6 +67,7 @@
   .me__title {
     font-size: 40px;
     padding-bottom: 16px;
+    line-height: 40px;
   }
   .me__job {
     font-size: 12px;
@@ -75,15 +76,22 @@
   .me__about {
     font-size: 12px;
     padding-bottom: 87px;
+    line-height: 18px;
   }
   .me__info {
     max-width: 365px;
+  }
+  .me__photo {
+    max-width: 255px;
   }
 }
 
 @media screen and (max-width: 700px) {
   .me {
     padding: 70px 14px;
+  }
+  .me__photo {
+    max-width: unset;
   }
   .me__wrapper {
     padding-top: 60px;

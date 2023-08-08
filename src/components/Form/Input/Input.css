@@ -1,7 +1,7 @@
 .input {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 11px;
 }
 
 .input__input {
@@ -12,10 +12,21 @@
   color: var(--color-text-white);
   padding: 15px;
   font-size: 13px;
+  transition: all .2s ease;
+  cursor: pointer;
 }
 
 .input__input_type_error {
   color: var(--color-text-red);
+}
+
+.input__input:hover {
+  opacity: .7;
+}
+
+.input__input:focus-visible {
+  cursor: text;
+  border: 1px solid white;
 }
 
 .input__placeholder {
