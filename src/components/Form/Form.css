@@ -18,6 +18,10 @@
   font-weight: 500;
   line-height: normal;
 }
+.form__button_disabled {
+  cursor: not-allowed;
+  opacity: .7;
+}
 
 .form__responce-error {
   height: 10px;

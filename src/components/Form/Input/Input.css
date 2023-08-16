@@ -36,7 +36,7 @@
 }
 
 .input__error {
-  height: 10px;
+  min-height: 10px;
   color: var(--color-text-red);
   font-size: 10px;
   font-weight: 400;

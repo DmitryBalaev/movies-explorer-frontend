@@ -5,11 +5,11 @@ import './Navigation.css'
 import { CurrentUserContext } from '../../Context/CurrentUserContext/CurrentUserContext';
 
 function NavMenu() {
-  const isAuth = useContext(CurrentUserContext)
+  const isLoggedIn = useContext(CurrentUserContext)
   return (
     <>
     {
-      isAuth ?
+      isLoggedIn ?
       <NavMenuUser/> :
       <NavMenuAuth/>
     }

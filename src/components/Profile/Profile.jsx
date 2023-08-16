@@ -1,12 +1,16 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import './Profile.css'
 import Header from '../Header/Header';
-import { useNavigate } from 'react-router-dom';
+import { CurrentUserContext } from '../../Context/CurrentUserContext/CurrentUserContext';
+import useFormValidation from '../../hooks/FormValidation/useFormValidation';
 
-function Profile({ handleLogout }) {
-  const navigate = useNavigate()
+function Profile({ onLogout }) {
+  const currentUser = useContext(CurrentUserContext)
+  const { values, errors, isValid, handleChange, resetForm, setIsValid } = useFormValidation({
+    name: currentUser.name,
+    email: currentUser.email,
+  });
   const [ isShowSaveBtn, setIsShowSaveBtn ] = useState(false)
-
   function handleEditBtnClick () {
     setIsShowSaveBtn(true)
   }
@@ -16,11 +20,9 @@ function Profile({ handleLogout }) {
     setIsShowSaveBtn(false)
   }
 
-  function handleLogoutBtnClick () {
-    handleLogout()
-    navigate('/')
+  function handleLogout () {
+    onLogout()
   }
-
   return (
     <>
     <Header/>
@@ -29,11 +31,11 @@ function Profile({ handleLogout }) {
       <form action="" className='profile__form' noValidate>
         <label htmlFor="name" className='profile__label'>
           <span className='profile__span-input'>Имя</span>
-          <input type="text" name="name" id="" defaultValue='Виталий' className='profile__input'/>
+          <input type="text" name="name" id="" defaultValue={currentUser.name} className='profile__input' onFocus={handleEditBtnClick} />
         </label>
         <label htmlFor="email" className='profile__label'>
           <span className='profile__span-input'>E-mail</span>
-          <input type="text" name="email" id="" defaultValue='pochta@yandex.ru' className='profile__input'/>
+          <input type="text" name="email" id="" defaultValue={currentUser.email} className='profile__input' onFocus={handleEditBtnClick}/>
         </label>
         <span className='profile__span-responce-error'></span>
         {isShowSaveBtn ? (
@@ -41,7 +43,7 @@ function Profile({ handleLogout }) {
         ) : (
         <>
         <button type='button' className='profile__btn-edit' onClick={handleEditBtnClick}>Редактировать</button>
-        <button type='button' className='profile__btn-loguot' onClick={handleLogoutBtnClick}>Выйти из аккаунта</button>
+        <button type='button' className='profile__btn-loguot' onClick={handleLogout}>Выйти из аккаунта</button>
         </>
         )}
       </form>
