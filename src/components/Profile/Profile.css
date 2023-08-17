@@ -98,6 +98,11 @@
   padding: 14px 0 ;
 }
 
+.profile__btn-save:disabled {
+  cursor: not-allowed;
+  opacity: .7;
+}
+
 @media (pointer: fine) {
   .profile__btn-edit:hover,
   .profile__btn-loguot:hover,

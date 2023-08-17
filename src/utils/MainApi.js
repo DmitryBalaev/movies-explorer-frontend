@@ -9,7 +9,7 @@ class MainApi {
     };
     return res.text().then((text) => {
       console.log(text)
-      // throw JSON.parse(text).message || JSON.parse(text).error;
+      throw JSON.parse(text).message || JSON.parse(text).error;
     });
   }
 
@@ -45,6 +45,20 @@ class MainApi {
         "Content-Type": "application/json",
         authorization: `Bearer ${token}`,
       },
+    }).then((res) => this._checkResponse(res));
+  }
+
+  setUserInfo({ name, email }) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
+      body: JSON.stringify({
+        name,
+        email,
+      })
     }).then((res) => this._checkResponse(res));
   }
 }

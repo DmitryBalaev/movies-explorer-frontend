@@ -12,15 +12,26 @@ import { MoviesPage } from "../Movies/Movies.lazy";
 import { SavedMoviesPage } from "../SavedMovies/SavedMovies.lazy";
 import Preloader from "../Preloader/Preloader";
 import api from "../../utils/MainApi";
+import beatApi from "../../utils/MoviesApi";
 
 function App() {
   const [errorMessage, setErrorMessage] = useState('');
+  const [movies, setMovies] = useState([])
   const [currentUser, setCurrentUser] = useState({
     isLoggedIn: localStorage.getItem("jwt") ? true : false,
   })
 
   const navigate = useNavigate()
 
+  useEffect(() => {
+    if (currentUser.isLoggedIn) {
+      beatApi
+        .getMovies()
+        .then(setMovies)
+        .catch(err => console.log(err))
+    }
+  }, [currentUser.isLoggedIn])
+  console.log(movies)
   const handleError = (e) => {
     setErrorMessage(e)
     console.log(errorMessage)
@@ -45,8 +56,9 @@ function App() {
   }
 
   const handleLogout = () => {
-    localStorage.removeItem("jwt")
     setCurrentUser((prev) => ({...prev, isLoggedIn: false}))
+    localStorage.clear()
+    navigate('/', { replace: true })
   }
 
   const handleRegister = async ({ email, password, name }) => {
@@ -61,6 +73,19 @@ function App() {
     } catch (e) {
       handleError(e)
     }
+  }
+
+  const handleEditUserInfo = ({ name, email }) => {
+    api
+      .setUserInfo({ name, email })
+      .then((res) => {
+        console.log(res)
+        setCurrentUser((user) => ({
+          ...user,
+          name: res.data.name,
+          email: res.data.email,
+        }))
+      })
   }
 
   const checkToken = async () => {
@@ -93,7 +118,7 @@ function App() {
           <Route element={<ProtectedRoute/>}>
             <Route
               path="/profile"
-              element={<ProfilePage onLogout={handleLogout} />}
+              element={<ProfilePage onLogout={handleLogout} onSubmit={handleEditUserInfo}/>}
             />
             <Route path="/movies" element={<MoviesPage />} />
             <Route path="/saved-movies" element={<SavedMoviesPage />} />
