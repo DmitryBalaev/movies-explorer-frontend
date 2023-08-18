@@ -11,15 +11,16 @@ import img1 from '../../images/movies-images/movies1.png'
 import img2 from '../../images/movies-images/movies2.png'
 
 function SavedMovies() {
+
   return (
     <>
       <Header/>
       <Content>
       <SearchForm/>
       <MoviesList>
-          <Movie img={img} name={'33 слова о дизайне'} duration={'1ч 47м'} alt={'постер фильма 33 слова о дизайне'}/>
-          <Movie img={img1} name={'Киноальманах «100 лет дизайна»'} duration={'1ч 47м'} alt={'постер фильма Киноальманах «100 лет дизайна»'}/>
-          <Movie img={img2} name={'В погоне за Бенкси'} duration={'1ч 47м'} alt={'В погоне за Бенкси'}/>
+          <Movie image={img} name={'33 слова о дизайне'} duration={'1ч 47м'} alt={'постер фильма 33 слова о дизайне'}/>
+          <Movie image={img1} name={'Киноальманах «100 лет дизайна»'} duration={'1ч 47м'} alt={'постер фильма Киноальманах «100 лет дизайна»'}/>
+          <Movie image={img2} name={'В погоне за Бенкси'} duration={'1ч 47м'} alt={'В погоне за Бенкси'}/>
        </MoviesList>
       </Content>
       <Footer/>

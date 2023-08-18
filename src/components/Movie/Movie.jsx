@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './Movie.css'
 import { useLocation } from "react-router-dom";
 
-function Movie({ img, name, duration, alt }) {
+function Movie({ image, name, duration, alt }) {
   const [ isLiked, setIsLiked ] = useState(false)
   const location = useLocation()
 
@@ -11,7 +11,7 @@ function Movie({ img, name, duration, alt }) {
   }
   return (
     <li className="movie">
-    <img src={img} alt={alt} className="movie__img" />
+    <img src={image} alt={alt} className="movie__img" />
     <div className="movie__name-wrapper">
       <p className="movie__name">{name}</p>
       {

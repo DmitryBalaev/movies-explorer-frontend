@@ -1,46 +1,65 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../Header/Header";
 import SearchForm from "../SearchForm/SearchForm";
 import "./Movies.css";
 import Footer from "../Footer/Footer";
 import Content from "../Content/Content";
 import MoviesList from "../MoviesList/MoviesList";
-import img from "../../images/movies-images/movies.png";
-import img1 from '../../images/movies-images/movies1.png'
-import img2 from '../../images/movies-images/movies2.png'
-import img3 from '../../images/movies-images/movies3.png'
-import img4 from '../../images/movies-images/movies4.png'
-import img5 from '../../images/movies-images/movies5.png'
-import img6 from '../../images/movies-images/movies6.png'
-import img7 from '../../images/movies-images/movies7.png'
-import img8 from '../../images/movies-images/movies8.png'
-import img9 from '../../images/movies-images/movies9.png'
-import img10 from '../../images/movies-images/movies10.png'
-import img11 from '../../images/movies-images/movies11.png'
 import Movie from "../Movie/Movie";
 
+function Movies({ movies, onSubmitSearch, setMovies, savedMovies, isLoading, setIsLoading }) {
+  const [valueSearch, setValueSearch] = useState({});
 
-function Movies() {
+  useEffect(() => {
+    let isShort = localStorage.getItem("isShort") === 'true' ? true : false
+    let savedMovies = JSON.parse(localStorage.getItem("searchMovies"));
+    if (savedMovies.length > 0) {
+      isShort === true
+      ? setMovies(JSON.parse(localStorage.getItem("searchMovies")).filter((item) => item.duration <= 40))
+      : setMovies(JSON.parse(localStorage.getItem("searchMovies")));
+    }
+  }, [valueSearch]);
 
+
+
+
+  const getImageLink = (movie) => {
+    return movie.movieId
+      ? movie.image
+      : "https://api.nomoreparties.co/" + movie.image.url;
+  };
+
+  const getDuration = (movie) => {
+    const hours = Math.floor(movie.duration / 60);
+    const minutes = Math.floor(movie.duration % 60);
+    return `${hours > 0 ? hours + "ч " : ""}${minutes}м`;
+  };
+
+  const getId = (movie) => {
+    return movie.movieId ? movie.movieId : movie.id;
+  };
+
+  const renderMovie = () => {
+    if (movies.length > 0) {
+      return movies.map((film) => {
+        return (
+          <Movie
+            key={getId(film)}
+            duration={getDuration(film)}
+            image={getImageLink(film)}
+            name={film.nameRU}
+            alt={`постер фильма: ${film.nameRU}`}
+          />
+        );
+      });
+    }
+  };
   return (
     <>
       <Header />
       <Content>
-        <SearchForm />
-        <MoviesList>
-          <Movie img={img} name={'33 слова о дизайне'} duration={'1ч 47м'} alt={'постер фильма 33 слова о дизайне'}/>
-          <Movie img={img1} name={'Киноальманах «100 лет дизайна»'} duration={'1ч 47м'} alt={'постер фильма Киноальманах «100 лет дизайна»'}/>
-          <Movie img={img2} name={'В погоне за Бенкси'} duration={'1ч 47м'} alt={'постер фильма В погоне за Бенкси'}/>
-          <Movie img={img3} name={'Баския: Взрыв реальности'} duration={'1ч 47м'} alt={'постер фильма Баския: Взрыв реальности'}/>
-          <Movie img={img4} name={'Бег это свобода'} duration={'1ч 47м'} alt={'постер фильма Бег это свобода'}/>
-          <Movie img={img5} name={'Книготорговцы'} duration={'1ч 47м'} alt={'постер фильма Книготорговцы'}/>
-          <Movie img={img6} name={'Когда я думаю о Германии ночью'} duration={'1ч 47м'} alt={'постер фильма Когда я думаю о Германии ночью'}/>
-          <Movie img={img7} name={'Gimme Danger: История Игги и The Stooge'} duration={'1ч 47м'} alt={'постер фильма Gimme Danger: История Игги и The Stooge'}/>
-          <Movie img={img8} name={'Дженис: Маленькая девочка грустит'} duration={'1ч 47м'} alt={'постер фильма Дженис: Маленькая девочка грустит'}/>
-          <Movie img={img9} name={'Соберись перед прыжком'} duration={'1ч 47м'} alt={'постер фильма Соберись перед прыжком'}/>
-          <Movie img={img10} name={'Пи Джей Харви: A dog called money'} duration={'1ч 47м'} alt={'постер фильма Пи Джей Харви: A dog called money'}/>
-          <Movie img={img11} name={'По волнам: Искусство звука в кино'} duration={'1ч 47м'} alt={'постер фильма По волнам: Искусство звука в кино'}/>
-        </MoviesList>
+        <SearchForm onSubmitSearch={onSubmitSearch} valueSearch={valueSearch} setValueSearch={setValueSearch} />
+        <MoviesList>{renderMovie()}</MoviesList>
       </Content>
       <Footer />
     </>
