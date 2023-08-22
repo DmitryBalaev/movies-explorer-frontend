@@ -7,21 +7,18 @@ import Content from "../Content/Content";
 import MoviesList from "../MoviesList/MoviesList";
 import Movie from "../Movie/Movie";
 
-function Movies({ movies, onSubmitSearch, setMovies, savedMovies, isLoading, setIsLoading }) {
+function Movies({ movies, onSubmitSearch, setMovies, savedMovies, isLoading, setIsLoading, onPosterClick }) {
   const [valueSearch, setValueSearch] = useState({});
 
   useEffect(() => {
     let isShort = localStorage.getItem("isShort") === 'true' ? true : false
     let savedMovies = JSON.parse(localStorage.getItem("searchMovies"));
-    if (savedMovies.length > 0) {
+    if (savedMovies !== null) {
       isShort === true
       ? setMovies(JSON.parse(localStorage.getItem("searchMovies")).filter((item) => item.duration <= 40))
       : setMovies(JSON.parse(localStorage.getItem("searchMovies")));
     }
   }, [valueSearch]);
-
-
-
 
   const getImageLink = (movie) => {
     return movie.movieId
@@ -47,8 +44,10 @@ function Movies({ movies, onSubmitSearch, setMovies, savedMovies, isLoading, set
             key={getId(film)}
             duration={getDuration(film)}
             image={getImageLink(film)}
+            currentMovie={film}
             name={film.nameRU}
             alt={`постер фильма: ${film.nameRU}`}
+            onPosterClick={onPosterClick}
           />
         );
       });

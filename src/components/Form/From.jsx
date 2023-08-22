@@ -3,8 +3,9 @@ import "./Form.css";
 import Input from "./Input/Input";
 import { Link } from "react-router-dom";
 import useFormValidation from "../../hooks/FormValidation/useFormValidation";
+import Preloader from "../Preloader/Preloader";
 
-function Form({ isRegister, onLogin, onRegister }) {
+function Form({ isRegister, onLogin, onRegister, isLoading, error }) {
   const texts = isRegister
     ? {
         buttonText: "Зарегистрироваться",
@@ -64,28 +65,37 @@ function Form({ isRegister, onLogin, onRegister }) {
         values={values}
         errors={errors}
       />
-      <p
-        className={
-          isRegister
-            ? "form__responce-error"
-            : "form__responce-error form__responce-error_type_login"
-        }
-      ></p>
-      <button
-        type="submit"
-        className={`form__button ${isRegister ? "" : "form__button_login"} ${
-          !isValid && "form__button_disabled"
-        }`}
-        disabled={!isValid}
-      >
-        {texts.buttonText}
-      </button>
-      <p className="from__question">
-        {texts.descriptionText}
-        <Link to={texts.linkPath} className="from__link">
-          {texts.linkText}
-        </Link>
-      </p>
+      {isLoading ? (
+        <Preloader />
+      ) : (
+        <>
+          <p
+            className={`
+              ${isRegister
+                ? "form__responce-error"
+                : "form__responce-error form__responce-error_type_login"}
+              ${error.isError
+                ? ""
+                : "from__responce-error_type_ok"}
+            `}
+          >{error.message}</p>
+          <button
+            type="submit"
+            className={`form__button ${
+              isRegister ? "" : "form__button_login"
+            } ${!isValid && "form__button_disabled"}`}
+            disabled={!isValid}
+          >
+            {texts.buttonText}
+          </button>
+          <p className="from__question">
+            {texts.descriptionText}
+            <Link to={texts.linkPath} className="from__link">
+              {texts.linkText}
+            </Link>
+          </p>
+        </>
+      )}
     </form>
   );
 }

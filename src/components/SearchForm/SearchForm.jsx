@@ -19,7 +19,6 @@ function SearchForm({ onSubmitSearch, valueSearch, setValueSearch }) {
   useEffect(() => {
     valueSearch.search = localStorage.getItem("search")
     valueSearch.search_checkbox = localStorage.getItem("isShort") === 'true' ? true : false
-    console.log(valueSearch.search_checkbox)
   }, [])
   return (
     <section className="search">

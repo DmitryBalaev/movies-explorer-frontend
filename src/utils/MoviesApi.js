@@ -1,6 +1,8 @@
+import { BEAT_API_URL } from "./constants";
+
 class MoviesApi {
-  constructor() {
-    this._baseUrl = "https://api.nomoreparties.co/beatfilm-movies";
+  constructor(baseUrl) {
+    this._baseUrl = baseUrl;
   }
 
   _checkResponse(res) {
@@ -21,6 +23,6 @@ class MoviesApi {
   }
 }
 
-const beatApi = new MoviesApi();
+const beatApi = new MoviesApi(BEAT_API_URL);
 
 export default beatApi;

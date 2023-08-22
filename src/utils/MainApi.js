@@ -1,6 +1,8 @@
+import { BASE_URL } from "./constants";
+
 class MainApi {
-  constructor() {
-    this._baseUrl = "https://api.diplom.dmitrybalaev.nomoredomains.xyz";
+  constructor(baseUrl) {
+    this._baseUrl = baseUrl;
   }
 
   _checkResponse(res) {
@@ -63,6 +65,6 @@ class MainApi {
   }
 }
 
-const api = new MainApi();
+const api = new MainApi(BASE_URL);
 
 export default api;

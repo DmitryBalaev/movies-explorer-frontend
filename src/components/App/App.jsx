@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate, useSearchParams } from "react-router-dom";
 import { LandingPage } from "../Landing/Landing.lazy";
 import { RegisterPage } from "../Register/Register.lazy";
 import { LoginPage } from "../Login/Login.lazy";
@@ -13,19 +13,44 @@ import { SavedMoviesPage } from "../SavedMovies/SavedMovies.lazy";
 import Preloader from "../Preloader/Preloader";
 import api from "../../utils/MainApi";
 import beatApi from "../../utils/MoviesApi";
+import { MESSAGES } from "../../utils/constants";
+import PopupVideo from "../PopupVideo/PopupVideo";
 
 function App() {
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState({
+    isError: false,
+    message: "",
+  });
   const [movies, setMovies] = useState([]);
   const [searchMovies, setSearchMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState([]);
-  const [searchError, setSearchError] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
+  const [currentMovie, setCurrentMovie] = useState({})
+  const [searchError, setSearchError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false)
   const [currentUser, setCurrentUser] = useState({
     isLoggedIn: localStorage.getItem("jwt") ? true : false,
   });
 
   const navigate = useNavigate();
+
+  const onPopupClose = () => {
+    setIsPopupOpen(false)
+  }
+
+  const handleOpenMovieTrailer = (movie) => {
+    setIsLoading(true)
+    try {
+      setIsPopupOpen(true)
+      setCurrentMovie(movie)
+    } catch (e) {
+      console.log(e)
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false)
+      }, 500)
+    }
+  }
 
   useEffect(() => {
     if (currentUser.isLoggedIn) {
@@ -36,70 +61,130 @@ function App() {
     }
   }, [currentUser.isLoggedIn]);
 
-  const handleError = (e) => {
-    setErrorMessage(e);
-  };
 
   const handleLogin = async ({ email, password }) => {
+    setIsLoading(true);
     try {
       if (email || password) {
         await api.login({ email, password }).then((res) => {
           if (res.token) {
             localStorage.setItem("jwt", res.token);
             setCurrentUser((prev) => ({ ...prev, isLoggedIn: true }));
-            navigate("/movies", { replace: true });
+            setErrorMessage({
+              isError: false,
+              message: MESSAGES.successLogin,
+            });
+            setTimeout(() => {
+              navigate("/movies", { replace: true });
+            }, 800);
           }
         });
       }
     } catch (e) {
-      handleError(e);
+      setErrorMessage({
+        isError: true,
+        message: e,
+      });
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
     }
   };
 
   const handleLogout = () => {
     setCurrentUser((prev) => ({ ...prev, isLoggedIn: false }));
+    setErrorMessage({
+      message: "",
+      isError: false,
+    });
     localStorage.clear();
     navigate("/", { replace: true });
   };
 
   const handleRegister = async ({ email, password, name }) => {
+    setIsLoading(true);
     try {
       if (email || password || name) {
         await api.register({ email, password, name }).then((res) => {
-          navigate("/signin", { replace: true });
+          setTimeout(() => {
+            navigate("/signin", { replace: true });
+            setErrorMessage({
+              message: "",
+            });
+          }, 800);
+          setErrorMessage({
+            isError: false,
+            message: MESSAGES.successRegistration,
+          });
+          handleLogin({ email, password })
         });
       }
     } catch (e) {
-      handleError(e);
+      setErrorMessage({
+        isError: true,
+        message: e,
+      });
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
     }
   };
 
-  const handleEditUserInfo = ({ name, email }) => {
-    api.setUserInfo({ name, email }).then((res) => {
-      setCurrentUser((user) => ({
-        ...user,
-        name: res.data.name,
-        email: res.data.email,
-      }));
-    });
+  const handleEditUserInfo = async ({ name, email }) => {
+    setIsLoading(true)
+    try {
+      await api.setUserInfo({ name, email }).then((res) => {
+        setCurrentUser((user) => ({
+          ...user,
+          name: res.data.name,
+          email: res.data.email,
+        }));
+        setErrorMessage({
+          isError: false,
+          message: MESSAGES.successChangeUserData,
+        });
+        setTimeout(() => {
+          setErrorMessage({
+            message: "",
+          });
+        }, 800)
+      })
+    } catch (e) {
+      setErrorMessage({
+        isError: true,
+        message: e,
+      });
+    } finally {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
+    }
   };
 
   const handleSearchMovie = (value) => {
-    console.log(value.search_checkbox)
-    if(!value.search) {
-      setSearchMovies([])
-      setSearchError('')
+    if (!value.search) {
+      setSearchMovies([]);
+      setSearchError("");
     } else {
       let filtredMovies = movies;
-      let isShort = value.search_checkbox
+      let isShort = value.search_checkbox;
+      console.log(isShort)
       if (isShort === true) {
         setSearchMovies(
-          filtredMovies = movies.filter((item) => item.duration <= 40)
+          (filtredMovies = movies.filter((item) => item.duration <= 40))
         );
-      } else {
+        console.log(searchMovies)
+
+      } else if (isShort === false) {
+        console.log(filtredMovies)
         setSearchMovies(
-          filtredMovies.filter((item) => item.nameRU.toLowerCase().includes(value.search.toLowerCase()))
+          filtredMovies.filter((item) =>
+            item.nameRU.toLowerCase().includes(value.search.toLowerCase())
+          )
         );
+        console.log(searchMovies)
       }
       localStorage.setItem("search", value.search);
       localStorage.setItem("isShort", value.search_checkbox);
@@ -107,11 +192,11 @@ function App() {
         "searchMovies",
         JSON.stringify(
           movies.filter((item) =>
-          item.nameRU.toLowerCase().includes(value.search.toLowerCase())
+            item.nameRU.toLowerCase().includes(value.search.toLowerCase())
           )
-          )
-          );
-        }
+        )
+      );
+    }
   };
 
   const checkToken = async () => {
@@ -128,8 +213,6 @@ function App() {
     }
   };
 
-
-
   useEffect(() => {
     if (currentUser.isLoggedIn) {
       checkToken();
@@ -143,13 +226,23 @@ function App() {
           <Route
             path="/signup"
             element={
-              <RegisterPage onLogin={handleLogin} onRegister={handleRegister} />
+              <RegisterPage
+                onLogin={handleLogin}
+                onRegister={handleRegister}
+                isLoading={isLoading}
+                error={errorMessage}
+              />
             }
           />
           <Route
             path="/signin"
             element={
-              <LoginPage onLogin={handleLogin} onRegister={handleRegister} />
+              <LoginPage
+                onLogin={handleLogin}
+                onRegister={handleRegister}
+                isLoading={isLoading}
+                error={errorMessage}
+              />
             }
           />
           <Route path="*" element={<NotFound />} />
@@ -160,6 +253,9 @@ function App() {
                 <ProfilePage
                   onLogout={handleLogout}
                   onSubmit={handleEditUserInfo}
+                  isLoading={isLoading}
+                  error={errorMessage}
+                  setError={setErrorMessage}
                 />
               }
             />
@@ -173,6 +269,7 @@ function App() {
                   savedMovies={savedMovies}
                   isLoading={isLoading}
                   setIsLoading={setIsLoading}
+                  onPosterClick={handleOpenMovieTrailer}
                 />
               }
             />
@@ -180,6 +277,13 @@ function App() {
           </Route>
         </Routes>
       </Suspense>
+      <PopupVideo
+      isOpen={isPopupOpen}
+      onClose={onPopupClose}
+      name={currentMovie.nameRU}
+      link={currentMovie.trailerLink}
+      isLoading={isLoading}
+      />
     </CurrentUserContext.Provider>
   );
 }

@@ -3,8 +3,9 @@ import "./Profile.css";
 import Header from "../Header/Header";
 import { CurrentUserContext } from "../../Context/CurrentUserContext/CurrentUserContext";
 import useFormValidation from "../../hooks/FormValidation/useFormValidation";
+import Preloader from "../Preloader/Preloader";
 
-function Profile({ onLogout, onSubmit }) {
+function Profile({ onLogout, onSubmit, isLoading, error, setError }) {
   const currentUser = useContext(CurrentUserContext);
   const { values, isValid, handleChange, setValues, setIsValid } =
     useFormValidation({
@@ -27,6 +28,10 @@ function Profile({ onLogout, onSubmit }) {
   }, [currentUser, values, setIsValid]);
 
   function handleEditBtnClick() {
+    setError((prev) => ({
+      ...prev,
+      message: ''
+    }))
     setIsShowSaveBtn(true);
   }
 
@@ -37,8 +42,25 @@ function Profile({ onLogout, onSubmit }) {
   function handleSubmit(e) {
     e.preventDefault();
     onSubmit({ name: values.name, email: values.email })
-    setIsShowSaveBtn(false);
+    setTimeout(() => {
+      setIsShowSaveBtn(false);
+    }, 500)
   }
+
+  function isSaveBtn() {
+    console.log(isLoading)
+    return (
+      isLoading
+      ? (<Preloader/>)
+      : (<button
+      type="submit"
+      className="profile__btn-save"
+      disabled={!isValid}>
+      Сохранить
+    </button>)
+    )
+  }
+
   return (
     <>
       <Header />
@@ -76,16 +98,10 @@ function Profile({ onLogout, onSubmit }) {
               required
             />
           </label>
-          <span className="profile__span-responce-error"></span>
-          {isShowSaveBtn ? (
-            <button
-              type="submit"
-              className="profile__btn-save"
-              disabled={!isValid}
-            >
-              Сохранить
-            </button>
-          ) : (
+          <span className={`${error.isError ? 'profile__span-responce-error' : 'profile__span-responce-error profile__span-responce-error_ok' }`}>{error.message}</span>
+          {isShowSaveBtn ?
+           (isSaveBtn())
+         : (
             <>
               <button
                 type="button"

@@ -62,6 +62,10 @@
   min-height: 14px;
 }
 
+.profile__span-responce-error_ok {
+  color: #3DDC84;
+}
+
 .profile__btn-edit {
   color: var(--color-text-white);
   text-align: center;

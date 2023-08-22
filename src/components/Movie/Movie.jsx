@@ -2,16 +2,17 @@ import React, { useState } from 'react'
 import './Movie.css'
 import { useLocation } from "react-router-dom";
 
-function Movie({ image, name, duration, alt }) {
+function Movie({ image, name, duration, alt, onPosterClick, currentMovie }) {
   const [ isLiked, setIsLiked ] = useState(false)
   const location = useLocation()
 
   function handleLikeMovie () {
     setIsLiked(!isLiked)
+    console.log(currentMovie)
   }
   return (
     <li className="movie">
-    <img src={image} alt={alt} className="movie__img" />
+    <img src={image} alt={alt} className="movie__img" onClick={() => onPosterClick(currentMovie)} />
     <div className="movie__name-wrapper">
       <p className="movie__name">{name}</p>
       {

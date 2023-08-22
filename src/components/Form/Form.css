@@ -24,12 +24,20 @@
 }
 
 .form__responce-error {
-  height: 10px;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+  color: var(--color-text-red);
+  min-height: 10px;
   margin: 40px 0 20px;
 }
 
 .form__responce-error_type_login {
   margin: 130px 0 20px;
+}
+
+.from__responce-error_type_ok {
+  color: #3DDC84;
 }
 
 .from__question {
