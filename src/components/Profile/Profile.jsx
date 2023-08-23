@@ -48,7 +48,6 @@ function Profile({ onLogout, onSubmit, isLoading, error, setError }) {
   }
 
   function isSaveBtn() {
-    console.log(isLoading);
     return isLoading ? (
       <Preloader />
     ) : (
