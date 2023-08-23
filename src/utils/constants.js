@@ -1,5 +1,6 @@
 export const BASE_URL = "https://api.diplom.dmitrybalaev.nomoredomains.xyz";
 export const BEAT_API_URL = "https://api.nomoreparties.co/beatfilm-movies";
+export const BEAT_URL_SHORT = "https://api.nomoreparties.co";
 export const JWT = "jwt";
 export const LOCAL_STORAGE_LAST_SEARCH = "lastSearch";
 export const MESSAGES = {

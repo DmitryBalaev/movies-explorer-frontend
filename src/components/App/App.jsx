@@ -14,7 +14,7 @@ import { SavedMoviesPage } from "../SavedMovies/SavedMovies.lazy";
 import Preloader from "../Preloader/Preloader";
 import api from "../../utils/MainApi";
 import beatApi from "../../utils/MoviesApi";
-import { MESSAGES, DEVICE, JWT } from "../../utils/constants";
+import { MESSAGES, DEVICE, JWT, BEAT_URL_SHORT } from "../../utils/constants";
 import PopupVideo from "../PopupVideo/PopupVideo";
 import PopupTooltip from "../PopupTooltip/PopupTooltip";
 
@@ -29,12 +29,14 @@ function App() {
   const [deviceWidth, setDeviceWidth] = useState("desktop");
   const [isLoading, setIsLoading] = useState(false);
   const [isVideoPopupOpen, setIsVideoPopupOpen] = useState(false);
-  const [isTooltipPopupOpen, setIsTooltipPopupOpen] = useState(false)
+  const [isTooltipPopupOpen, setIsTooltipPopupOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState({
     isLoggedIn: localStorage.getItem(JWT) ? true : false,
   });
 
   const navigate = useNavigate();
+
+  // Постановка и снятие евентлистнера с window для отображения определенного кол-ва карточек
 
   useEffect(() => {
     function handleWidth() {
@@ -54,24 +56,30 @@ function App() {
     return () => window.removeEventListener("resize", handleWidth);
   }, [deviceWidth]);
 
+  // Закрытие всех модалок
+
   const onPopupClose = () => {
     setIsVideoPopupOpen(false);
     setIsTooltipPopupOpen(false);
     setTimeout(() => {
       setErrorMessage({
         isError: false,
-        message: '',
-      })
-    }, 200)
+        message: "",
+      });
+    }, 500);
   };
+
+  // Обработка ошибки поиска
 
   const handleSearchError = () => {
     setErrorMessage({
       isError: true,
-      message: MESSAGES.submitError
-    })
-    setIsTooltipPopupOpen(true)
-  }
+      message: MESSAGES.submitError,
+    });
+    setIsTooltipPopupOpen(true);
+  };
+
+  // Открытие модалки просмотра трейлера
 
   const handleOpenMovieTrailer = (movie) => {
     setIsLoading(true);
@@ -87,20 +95,48 @@ function App() {
     }
   };
 
+  // Получаем все фильмы, и так же все сохраненные фильмы
+
   useEffect(() => {
     if (currentUser.isLoggedIn) {
       beatApi
         .getMovies()
         .then(setMovies)
-        .catch(e => console.log(e));
+        .catch((e) => console.log(e));
       api
         .getSavedMovies()
         .then((movies) => {
-          setSavedMovies(movies.data)
+          setSavedMovies(movies.data);
         })
-        .catch(e => console.log(e))
+        .catch((e) => console.log(e));
     }
   }, [currentUser.isLoggedIn]);
+
+  // Сохранение фильма в свое апи
+
+  const handleLikeMovie = (film) => {
+    const filmData = {
+      country: film.country,
+      duration: film.duration,
+      nameRU: film.nameRU,
+      nameEN: film.nameEN,
+      movieId: film.id,
+      director: film.director,
+      year: film.year,
+      description: film.description,
+      image: BEAT_URL_SHORT + film.image.url,
+      trailerLink: film.trailerLink,
+      thumbnail: BEAT_URL_SHORT + film.image.formats.thumbnail.url,
+    };
+
+    api
+      .setSavedMovie(filmData)
+      .then((savedFilm) =>
+        setSavedMovies((movies) => [...movies, savedFilm.data])
+      );
+  };
+
+  // Авторизация пользователя
 
   const handleLogin = async ({ email, password }) => {
     setIsLoading(true);
@@ -132,6 +168,8 @@ function App() {
     }
   };
 
+  // Выход из учетной записи
+
   const handleLogout = () => {
     setCurrentUser((prev) => ({ ...prev, isLoggedIn: false }));
     setErrorMessage({
@@ -141,6 +179,8 @@ function App() {
     localStorage.clear();
     navigate("/", { replace: true });
   };
+
+  // Запрос на регистрацию, приуспешной регистрации, сразу авторизация и редерект на фильмы
 
   const handleRegister = async ({ email, password, name }) => {
     setIsLoading(true);
@@ -171,6 +211,8 @@ function App() {
       }, 500);
     }
   };
+
+  // Изменение данных пользователя
 
   const handleEditUserInfo = async ({ name, email }) => {
     setIsLoading(true);
@@ -203,7 +245,7 @@ function App() {
     }
   };
 
-// Проверка токена
+  // Проверка токена
 
   const checkToken = async () => {
     const token = localStorage.getItem(JWT);
@@ -224,6 +266,7 @@ function App() {
       checkToken();
     }
   }, [currentUser.isLoggedIn]);
+
   return (
     <DeviceWidthContext.Provider value={deviceWidth}>
       <CurrentUserContext.Provider value={currentUser}>
@@ -271,15 +314,24 @@ function App() {
                 element={
                   <MoviesPage
                     movies={movies}
+                    onLikeClick={handleLikeMovie}
                     savedMovies={savedMovies}
-                    isLoading={isLoading}
-                    setIsLoading={setIsLoading}
                     onPosterClick={handleOpenMovieTrailer}
                     handleError={handleSearchError}
                   />
                 }
               />
-              <Route path="/saved-movies" element={<SavedMoviesPage />} />
+              <Route
+                path="/saved-movies"
+                element={
+                  <SavedMoviesPage
+                    movies={savedMovies}
+                    savedMovies={savedMovies}
+                    onPosterClick={handleOpenMovieTrailer}
+                    handleError={handleSearchError}
+                  />
+                }
+              />
             </Route>
           </Routes>
         </Suspense>

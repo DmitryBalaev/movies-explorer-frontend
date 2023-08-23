@@ -1,15 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './Movie.css'
 import { useLocation } from "react-router-dom";
 
-function Movie({ image, name, duration, alt, onPosterClick, currentMovie }) {
-  const [ isLiked, setIsLiked ] = useState(false)
+function Movie({ image, name, duration, alt, onPosterClick, currentMovie, onLikeClick, isMovieLike }) {
   const location = useLocation()
 
-  function handleLikeMovie () {
-    setIsLiked(!isLiked)
-    console.log(currentMovie)
-  }
   return (
     <li className="movie">
     <img src={image} alt={alt} className="movie__img" onClick={() => onPosterClick(currentMovie)} />
@@ -18,7 +13,7 @@ function Movie({ image, name, duration, alt, onPosterClick, currentMovie }) {
       {
         location.pathname === '/saved-movies' ?
         <button className="movie__btn-delete"></button> :
-        <button className={isLiked ? 'movie__btn-like movie__btn-like_liked' : 'movie__btn-like'} onClick={handleLikeMovie}></button>
+        <button className={isMovieLike ? 'movie__btn-like movie__btn-like_liked' : 'movie__btn-like'} onClick={() => onLikeClick(currentMovie)}></button>
       }
     </div>
     <p className="movie__duration">{duration}</p>

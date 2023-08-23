@@ -65,11 +65,22 @@ class MainApi {
   }
 
   getSavedMovies() {
-    return fetch(`${this._baseUrl}/users/me`, {
+    return fetch(`${this._baseUrl}/movies`, {
       headers: {
         "Content-Type": "application/json",
         authorization: `Bearer ${localStorage.getItem(JWT)}`,
       },
+    }).then((res) => this._checkResponse(res));
+  }
+
+  setSavedMovie({...data}) {
+    return fetch(`${this._baseUrl}/movies`, {
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${localStorage.getItem(JWT)}`,
+      },
+      method: "POST",
+      body: JSON.stringify({...data})
     }).then((res) => this._checkResponse(res));
   }
 }

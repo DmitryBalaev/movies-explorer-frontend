@@ -1,13 +1,20 @@
-import React, { useContext, useEffect, useState, useTransition } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./MoviesList.css";
 import { useLocation } from "react-router-dom";
 import SearchMessage from "../SearchMessage/SearchMessage";
 import Movie from "../Movie/Movie";
 import { DeviceWidthContext } from "../../Context/DeviceWidthContext/DeviceWidthContext";
 import Preloader from "../Preloader/Preloader";
-import { CONFIG_MOVIES_RENDER } from "../../utils/constants";
+import { CONFIG_MOVIES_RENDER, BEAT_URL_SHORT } from "../../utils/constants";
 
-function MoviesList({ movies, text, savedMovies, isLoading, onPosterClick }) {
+function MoviesList({
+  movies,
+  text,
+  savedMovies,
+  isLoading,
+  onPosterClick,
+  onLikeClick,
+}) {
   const location = useLocation();
   const device = useContext(DeviceWidthContext);
   const [isBtnMoreShow, setIsBtnMoreShow] = useState(true);
@@ -16,9 +23,7 @@ function MoviesList({ movies, text, savedMovies, isLoading, onPosterClick }) {
   const [isMoreLoading, setIsMoreLoading] = useState(false);
 
   const getImageLink = (movie) => {
-    return movie.movieId
-      ? movie.image
-      : "https://api.nomoreparties.co/" + movie.image.url;
+    return movie.movieId ? movie.image : BEAT_URL_SHORT + movie.image.url;
   };
 
   const getDuration = (movie) => {
@@ -42,14 +47,23 @@ function MoviesList({ movies, text, savedMovies, isLoading, onPosterClick }) {
   }, [device, movies, renderCount, page]);
 
   const handleMoreBtnClick = () => {
-    setIsBtnMoreShow(false)
-    setIsMoreLoading(true)
+    setIsBtnMoreShow(false);
+    setIsMoreLoading(true);
     setTimeout(() => {
-      setIsBtnMoreShow(true)
-      setIsMoreLoading(false)
-      setPage((prev) => prev + 1)
-    }, 200)
-  }
+      setIsBtnMoreShow(true);
+      setIsMoreLoading(false);
+      setPage((prev) => prev + 1);
+    }, 200);
+  };
+
+  const isMovieLike = (movie) => {
+    const isLike = savedMovies.reduce((acc, film) => {
+      if (film.movieId === movie.id) return true;
+      return acc;
+    }, false);
+
+    return isLike;
+  };
 
   const renderMovie = (renderCount) => {
     if (movies.length > 0) {
@@ -63,6 +77,8 @@ function MoviesList({ movies, text, savedMovies, isLoading, onPosterClick }) {
             name={film.nameRU}
             alt={`постер фильма: ${film.nameRU}`}
             onPosterClick={onPosterClick}
+            onLikeClick={onLikeClick}
+            isMovieLike={isMovieLike(film)}
           />
         );
       });
@@ -77,11 +93,13 @@ function MoviesList({ movies, text, savedMovies, isLoading, onPosterClick }) {
         <ul className="movies__list">{renderMovie(renderCount)}</ul>
       )}
       {location.pathname === "/movies" && isBtnMoreShow ? (
-        <button className="movies__more" onClick={handleMoreBtnClick}>Ещё</button>
+        <button className="movies__more" onClick={handleMoreBtnClick}>
+          Ещё
+        </button>
       ) : (
         ""
       )}
-      {isMoreLoading && <Preloader/>}
+      {isMoreLoading && <Preloader />}
     </section>
   );
 }
