@@ -1,4 +1,4 @@
-import { BASE_URL } from "./constants";
+import { BASE_URL, JWT } from "./constants";
 
 class MainApi {
   constructor(baseUrl) {
@@ -7,10 +7,10 @@ class MainApi {
 
   _checkResponse(res) {
     if (res.ok) {
-      return res.json()
-    };
+      return res.json();
+    }
     return res.text().then((text) => {
-      console.log(text)
+      console.log(text);
       throw JSON.parse(text).message || JSON.parse(text).error;
     });
   }
@@ -55,12 +55,21 @@ class MainApi {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        authorization: `Bearer ${localStorage.getItem(JWT)}`,
       },
       body: JSON.stringify({
         name,
         email,
-      })
+      }),
+    }).then((res) => this._checkResponse(res));
+  }
+
+  getSavedMovies() {
+    return fetch(`${this._baseUrl}/users/me`, {
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${localStorage.getItem(JWT)}`,
+      },
     }).then((res) => this._checkResponse(res));
   }
 }
