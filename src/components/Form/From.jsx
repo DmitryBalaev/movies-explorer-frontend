@@ -71,14 +71,16 @@ function Form({ isRegister, onLogin, onRegister, isLoading, error }) {
         <>
           <p
             className={`
-              ${isRegister
-                ? "form__responce-error"
-                : "form__responce-error form__responce-error_type_login"}
-              ${error.isError
-                ? ""
-                : "from__responce-error_type_ok"}
+              ${
+                isRegister
+                  ? "form__responce-error"
+                  : "form__responce-error form__responce-error_type_login"
+              }
+              ${error.isError ? "" : "from__responce-error_type_ok"}
             `}
-          >{error.message}</p>
+          >
+            {error.message}
+          </p>
           <button
             type="submit"
             className={`form__button ${

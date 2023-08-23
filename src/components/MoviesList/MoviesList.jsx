@@ -14,6 +14,7 @@ function MoviesList({
   isLoading,
   onPosterClick,
   onLikeClick,
+  handleDelete,
 }) {
   const location = useLocation();
   const device = useContext(DeviceWidthContext);
@@ -58,7 +59,10 @@ function MoviesList({
 
   const isMovieLike = (movie) => {
     const isLike = savedMovies.reduce((acc, film) => {
-      if (film.movieId === movie.id) return true;
+      if (film.movieId === movie.id) {
+        movie._id = film._id;
+        return true;
+      }
       return acc;
     }, false);
 
@@ -79,6 +83,7 @@ function MoviesList({
             onPosterClick={onPosterClick}
             onLikeClick={onLikeClick}
             isMovieLike={isMovieLike(film)}
+            handleDelete={handleDelete}
           />
         );
       });

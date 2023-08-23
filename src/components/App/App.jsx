@@ -69,7 +69,7 @@ function App() {
     }, 500);
   };
 
-  // Обработка ошибки поиска
+  // Обработка ошибки поиска и открытие модалки с ошибкой
 
   const handleSearchError = () => {
     setErrorMessage({
@@ -133,7 +133,21 @@ function App() {
       .setSavedMovie(filmData)
       .then((savedFilm) =>
         setSavedMovies((movies) => [...movies, savedFilm.data])
-      );
+      )
+      .catch((e) => console.log(e));
+  };
+
+  // Удаление фильма
+
+  const handleDeleteMovie = (movieId) => {
+    api
+      .deleteSavedMovie(movieId)
+      .then(() =>
+        setSavedMovies((movies) =>
+          movies.filter((film) => film._id !== movieId)
+        )
+      )
+      .catch((e) => console.log(e));
   };
 
   // Авторизация пользователя
@@ -318,6 +332,7 @@ function App() {
                     savedMovies={savedMovies}
                     onPosterClick={handleOpenMovieTrailer}
                     handleError={handleSearchError}
+                    handleDelete={handleDeleteMovie}
                   />
                 }
               />
@@ -329,6 +344,7 @@ function App() {
                     savedMovies={savedMovies}
                     onPosterClick={handleOpenMovieTrailer}
                     handleError={handleSearchError}
+                    handleDelete={handleDeleteMovie}
                   />
                 }
               />

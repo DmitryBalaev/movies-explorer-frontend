@@ -6,43 +6,46 @@ import { useLocation } from "react-router-dom";
 function SearchForm({ onSubmitSearch, isLoadingMovie, onError }) {
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState({
-    valueSearch: '',
+    valueSearch: "",
     isShort: false,
-  })
+  });
 
   useEffect(() => {
-    if (location.pathname === '/movies' && localStorage.getItem(LOCAL_STORAGE_LAST_SEARCH)) {
+    if (
+      location.pathname === "/movies" &&
+      localStorage.getItem(LOCAL_STORAGE_LAST_SEARCH)
+    ) {
       const { valueSearch, isShort } = JSON.parse(
         localStorage.getItem(LOCAL_STORAGE_LAST_SEARCH)
       );
       setSearchQuery({
         valueSearch,
         isShort,
-      })
+      });
     }
-  },[location])
+  }, [location]);
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    if(!searchQuery.valueSearch.trim()) {
-      onError()
-      return setSearchQuery({...searchQuery, valueSearch: ''})
+    e.preventDefault();
+    if (!searchQuery.valueSearch.trim()) {
+      onError();
+      return setSearchQuery({ ...searchQuery, valueSearch: "" });
     }
-    onSubmitSearch(searchQuery)
-  }
+    onSubmitSearch(searchQuery);
+  };
 
   const handleCheckbox = (e) => {
-    if(!searchQuery.valueSearch.trim()) {
-      onError()
-      return setSearchQuery({...searchQuery, valueSearch: ''})
+    if (!searchQuery.valueSearch.trim()) {
+      onError();
+      return setSearchQuery({ ...searchQuery, valueSearch: "" });
     }
-    setSearchQuery({...searchQuery, isShort: e.target.checked})
-    onSubmitSearch({...searchQuery, isShort: e.target.checked})
-  }
+    setSearchQuery({ ...searchQuery, isShort: e.target.checked });
+    onSubmitSearch({ ...searchQuery, isShort: e.target.checked });
+  };
 
   const handleChange = (e) => {
-    setSearchQuery({...searchQuery, valueSearch: e.target.value})
-  }
+    setSearchQuery({ ...searchQuery, valueSearch: e.target.value });
+  };
   return (
     <section className="search">
       <form action="" className="search_form" onSubmit={handleSubmit}>

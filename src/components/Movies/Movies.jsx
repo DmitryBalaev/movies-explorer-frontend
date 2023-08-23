@@ -13,6 +13,7 @@ function Movies({
   onPosterClick,
   handleError,
   onLikeClick,
+  handleDelete,
 }) {
   const { filtredMovies, message, isLoadingMovie, handleSearch } = useSearch({
     movies: movies,
@@ -36,6 +37,7 @@ function Movies({
           isLoading={isLoadingMovie}
           onPosterClick={onPosterClick}
           onLikeClick={onLikeClick}
+          handleDelete={handleDelete}
         />
       </Content>
       <Footer />

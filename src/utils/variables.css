@@ -6,7 +6,7 @@
   --color-background-gray30: #303030;
   --color-background-gray31: #313131;
   --color-background-blue07: #073042;
-  --color-background-input: #2F2F2F;
+  --color-background-input: #2f2f2f;
   /* border color */
   --color-border-aaa: #aaa;
   --color-border-42: #424242;
@@ -18,8 +18,8 @@
   --color-text-black: #000;
   --color-text-gray: #8b8b8b;
   --color-text-red: #ee3465;
-  --color-text-blue: #4285F4;
+  --color-text-blue: #4285f4;
   /* button background */
-  --color-button-green: #3DDC84;
-  --color-button-blue: #4285F4;
+  --color-button-green: #3ddc84;
+  --color-button-blue: #4285f4;
 }

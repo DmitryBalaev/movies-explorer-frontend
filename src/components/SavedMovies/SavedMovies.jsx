@@ -7,7 +7,7 @@ import Content from "../Content/Content";
 import MoviesList from "../MoviesList/MoviesList";
 import { useSearch } from "../../hooks/useSearch/useSearch";
 
-function SavedMovies({ movies, onPosterClick, handleError }) {
+function SavedMovies({ movies, onPosterClick, handleError, handleDelete }) {
   const { filtredMovies, message, isLoadingMovie, handleSearch } = useSearch({
     movies: movies,
     isMoviesPage: false,
@@ -29,6 +29,7 @@ function SavedMovies({ movies, onPosterClick, handleError }) {
           text={message}
           isLoading={isLoadingMovie}
           onPosterClick={onPosterClick}
+          handleDelete={handleDelete}
         />
       </Content>
       <Footer />

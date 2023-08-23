@@ -73,14 +73,24 @@ class MainApi {
     }).then((res) => this._checkResponse(res));
   }
 
-  setSavedMovie({...data}) {
+  setSavedMovie({ ...data }) {
     return fetch(`${this._baseUrl}/movies`, {
       headers: {
         "Content-Type": "application/json",
         authorization: `Bearer ${localStorage.getItem(JWT)}`,
       },
       method: "POST",
-      body: JSON.stringify({...data})
+      body: JSON.stringify({ ...data }),
+    }).then((res) => this._checkResponse(res));
+  }
+
+  deleteSavedMovie(movieId) {
+    return fetch(`${this._baseUrl}/movies/${movieId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        authorization: `Bearer ${localStorage.getItem(JWT)}`,
+      },
+      method: "DELETE",
     }).then((res) => this._checkResponse(res));
   }
 }

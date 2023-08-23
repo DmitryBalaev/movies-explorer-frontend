@@ -30,8 +30,8 @@ function Profile({ onLogout, onSubmit, isLoading, error, setError }) {
   function handleEditBtnClick() {
     setError((prev) => ({
       ...prev,
-      message: ''
-    }))
+      message: "",
+    }));
     setIsShowSaveBtn(true);
   }
 
@@ -41,24 +41,21 @@ function Profile({ onLogout, onSubmit, isLoading, error, setError }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    onSubmit({ name: values.name, email: values.email })
+    onSubmit({ name: values.name, email: values.email });
     setTimeout(() => {
       setIsShowSaveBtn(false);
-    }, 500)
+    }, 500);
   }
 
   function isSaveBtn() {
-    console.log(isLoading)
-    return (
-      isLoading
-      ? (<Preloader/>)
-      : (<button
-      type="submit"
-      className="profile__btn-save"
-      disabled={!isValid}>
-      Сохранить
-    </button>)
-    )
+    console.log(isLoading);
+    return isLoading ? (
+      <Preloader />
+    ) : (
+      <button type="submit" className="profile__btn-save" disabled={!isValid}>
+        Сохранить
+      </button>
+    );
   }
 
   return (
@@ -98,10 +95,18 @@ function Profile({ onLogout, onSubmit, isLoading, error, setError }) {
               required
             />
           </label>
-          <span className={`${error.isError ? 'profile__span-responce-error' : 'profile__span-responce-error profile__span-responce-error_ok' }`}>{error.message}</span>
-          {isShowSaveBtn ?
-           (isSaveBtn())
-         : (
+          <span
+            className={`${
+              error.isError
+                ? "profile__span-responce-error"
+                : "profile__span-responce-error profile__span-responce-error_ok"
+            }`}
+          >
+            {error.message}
+          </span>
+          {isShowSaveBtn ? (
+            isSaveBtn()
+          ) : (
             <>
               <button
                 type="button"
