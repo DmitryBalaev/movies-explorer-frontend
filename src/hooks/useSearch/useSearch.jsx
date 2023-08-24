@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
-import { LOCAL_STORAGE_LAST_SEARCH } from "../../utils/constants";
+import {
+  LOCAL_STORAGE_LAST_SEARCH,
+  CONFIG_MOVIES_RENDER,
+} from "../../utils/constants";
 
-export function useSearch({ movies, isSavedMoviesPage, isMoviesPage }) {
+export function useSearch({ movies, isSavedMoviesPage, isMoviesPage }, device) {
   const [filtredMovies, setFiltredMovies] = useState([]);
   const [isLoadingMovie, setIsLoadingMovie] = useState(false);
   const [message, setMessage] = useState(
     "Для поиска фильмов, введите запрос в строку поиска."
   );
+  const [renderCount, setRenderCount] = useState(0);
+  const [page, setPage] = useState(0);
   const [searchQuery, setSearchQuery] = useState({
     valueSearch: "",
     isShort: false,
@@ -39,6 +44,7 @@ export function useSearch({ movies, isSavedMoviesPage, isMoviesPage }) {
   };
 
   const handleSearch = (searchQuery) => {
+    setPage(0);
     setIsLoadingMovie(true);
     const moviesData = setMoviesData(movies, searchQuery);
     setFiltredMovies(moviesData);
@@ -49,7 +55,6 @@ export function useSearch({ movies, isSavedMoviesPage, isMoviesPage }) {
 
     if (!searchQuery.valueSearch) {
       setMessage("Для поиска, введите запрос в поисковую строку.");
-      console.log(message);
       setFiltredMovies([]);
     }
 
@@ -68,6 +73,13 @@ export function useSearch({ movies, isSavedMoviesPage, isMoviesPage }) {
       setIsLoadingMovie(false);
     }, 500);
   };
+
+  useEffect(() => {
+    setRenderCount(
+      CONFIG_MOVIES_RENDER[device].renderCount +
+        CONFIG_MOVIES_RENDER[device].moreRender * page
+    );
+  }, [page, device, renderCount]);
 
   useEffect(() => {
     if (isMoviesPage) {
@@ -89,5 +101,13 @@ export function useSearch({ movies, isSavedMoviesPage, isMoviesPage }) {
     }
   }, [isSavedMoviesPage, movies]);
 
-  return { filtredMovies, handleSearch, message, isLoadingMovie };
+  return {
+    filtredMovies,
+    handleSearch,
+    message,
+    isLoadingMovie,
+    renderCount,
+    setPage,
+    page,
+  };
 }

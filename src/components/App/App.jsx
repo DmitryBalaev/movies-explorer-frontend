@@ -1,4 +1,4 @@
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { LandingPage } from "../Landing/Landing.lazy";
 import { RegisterPage } from "../Register/Register.lazy";
 import { LoginPage } from "../Login/Login.lazy";
@@ -35,6 +35,7 @@ function App() {
   });
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Постановка и снятие евентлистнера с window для отображения определенного кол-ва карточек
 
@@ -164,9 +165,7 @@ function App() {
               isError: false,
               message: MESSAGES.successLogin,
             });
-            setTimeout(() => {
-              navigate("/movies", { replace: true });
-            }, 800);
+            navigate("/movies", { replace: true });
           }
         });
       }
@@ -175,6 +174,11 @@ function App() {
         isError: true,
         message: e,
       });
+      setTimeout(() => {
+        setErrorMessage({
+          message: "",
+        });
+      }, 2200);
     } finally {
       setTimeout(() => {
         setIsLoading(false);
@@ -202,7 +206,6 @@ function App() {
       if (email || password || name) {
         await api.register({ email, password, name }).then((res) => {
           setTimeout(() => {
-            navigate("/signin", { replace: true });
             setErrorMessage({
               message: "",
             });
@@ -219,6 +222,11 @@ function App() {
         isError: true,
         message: e,
       });
+      setTimeout(() => {
+        setErrorMessage({
+          message: "",
+        });
+      }, 2200);
     } finally {
       setTimeout(() => {
         setIsLoading(false);
@@ -245,7 +253,7 @@ function App() {
           setErrorMessage({
             message: "",
           });
-        }, 800);
+        }, 1200);
       });
     } catch (e) {
       setErrorMessage({
@@ -265,21 +273,46 @@ function App() {
     const token = localStorage.getItem(JWT);
 
     if (token) {
-      const userInfo = await api.getCurrentUser(token);
-      setCurrentUser((prev) => ({
-        ...prev,
-        isLoggedIn: true,
-        name: userInfo.data.name,
-        email: userInfo.data.email,
-      }));
+      try {
+        const userInfo = await api.getCurrentUser(token);
+        setCurrentUser((prev) => ({
+          ...prev,
+          isLoggedIn: true,
+          name: userInfo.data.name,
+          email: userInfo.data.email,
+        }));
+      } catch (e) {
+        localStorage.clear();
+        setCurrentUser((prev) => ({
+          ...prev,
+          isLoggedIn: false,
+          name: "",
+          email: "",
+        }));
+      }
     }
   };
 
   useEffect(() => {
     if (currentUser.isLoggedIn) {
+      setErrorMessage({
+        isError: false,
+        message: "",
+      });
       checkToken();
     }
   }, [currentUser.isLoggedIn]);
+
+// Защита роутов регистрации и авторизации при авторизированном пользователе
+
+  useEffect(() => {
+    if (
+      currentUser.isLoggedIn &&
+      (location.pathname === "/signin" || location.pathname === "/signup")
+    ) {
+      navigate("/movies", { replace: true });
+    }
+  }, [location.pathname, navigate, currentUser.isLoggedIn]);
 
   return (
     <DeviceWidthContext.Provider value={deviceWidth}>

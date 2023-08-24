@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./MoviesList.css";
 import { useLocation } from "react-router-dom";
 import SearchMessage from "../SearchMessage/SearchMessage";
 import Movie from "../Movie/Movie";
-import { DeviceWidthContext } from "../../Context/DeviceWidthContext/DeviceWidthContext";
 import Preloader from "../Preloader/Preloader";
-import { CONFIG_MOVIES_RENDER, BEAT_URL_SHORT } from "../../utils/constants";
+import { BEAT_URL_SHORT } from "../../utils/constants";
 
 function MoviesList({
   movies,
@@ -15,12 +14,13 @@ function MoviesList({
   onPosterClick,
   onLikeClick,
   handleDelete,
+  handleSearch,
+  setPage,
+  renderCount,
+  page,
 }) {
   const location = useLocation();
-  const device = useContext(DeviceWidthContext);
   const [isBtnMoreShow, setIsBtnMoreShow] = useState(true);
-  const [renderCount, setRenderCount] = useState(0);
-  const [page, setPage] = useState(0);
   const [isMoreLoading, setIsMoreLoading] = useState(false);
 
   const getImageLink = (movie) => {
@@ -38,14 +38,10 @@ function MoviesList({
   };
 
   useEffect(() => {
-    setRenderCount(
-      CONFIG_MOVIES_RENDER[device].renderCount +
-        CONFIG_MOVIES_RENDER[device].moreRender * page
-    );
     movies.length >= renderCount
       ? setIsBtnMoreShow(true)
       : setIsBtnMoreShow(false);
-  }, [device, movies, renderCount, page]);
+  }, [movies, renderCount, page]);
 
   const handleMoreBtnClick = () => {
     setIsBtnMoreShow(false);
@@ -84,6 +80,7 @@ function MoviesList({
             onLikeClick={onLikeClick}
             isMovieLike={isMovieLike(film)}
             handleDelete={handleDelete}
+            handleSearch={handleSearch}
           />
         );
       });

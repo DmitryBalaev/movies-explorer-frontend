@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Form.css";
 import Input from "./Input/Input";
 import { Link } from "react-router-dom";
@@ -22,9 +22,12 @@ function Form({ isRegister, onLogin, onRegister, isLoading, error }) {
   const { values, errors, isValid, handleChange, resetForm } =
     useFormValidation();
 
+  useEffect(() => {
+    resetForm();
+  }, [resetForm]);
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    resetForm();
     isRegister
       ? onRegister({
           email: values.email,
@@ -49,6 +52,7 @@ function Form({ isRegister, onLogin, onRegister, isLoading, error }) {
           minLength={2}
           maxLength={30}
           handleChange={handleChange}
+          disabled={isLoading}
         />
       )}
       <Input
@@ -57,6 +61,7 @@ function Form({ isRegister, onLogin, onRegister, isLoading, error }) {
         handleChange={handleChange}
         values={values}
         errors={errors}
+        disabled={isLoading}
       />
       <Input
         placeholder="Пароль"
@@ -64,6 +69,9 @@ function Form({ isRegister, onLogin, onRegister, isLoading, error }) {
         handleChange={handleChange}
         values={values}
         errors={errors}
+        disabled={isLoading}
+        minLength={6}
+        maxLength={30}
       />
       {isLoading ? (
         <Preloader />

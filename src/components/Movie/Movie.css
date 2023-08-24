@@ -84,6 +84,12 @@
   }
 }
 
+@media screen and (max-width: 900px) {
+  .movie__btn-delete {
+    opacity: 1;
+  }
+}
+
 @media screen and (max-width: 768px)  {
   .movie {
     max-width: 339px;

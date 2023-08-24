@@ -4,6 +4,7 @@ import Header from "../Header/Header";
 import { CurrentUserContext } from "../../Context/CurrentUserContext/CurrentUserContext";
 import useFormValidation from "../../hooks/FormValidation/useFormValidation";
 import Preloader from "../Preloader/Preloader";
+import { useLocation } from "react-router-dom";
 
 function Profile({ onLogout, onSubmit, isLoading, error, setError }) {
   const currentUser = useContext(CurrentUserContext);
@@ -13,6 +14,16 @@ function Profile({ onLogout, onSubmit, isLoading, error, setError }) {
       email: currentUser.email,
     });
   const [isShowSaveBtn, setIsShowSaveBtn] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname !== "profile") {
+      setError((prev) => ({
+        ...prev,
+        message: "",
+      }));
+    }
+  }, [location.pathname, setError]);
 
   useEffect(() => {
     setValues((user) => ({

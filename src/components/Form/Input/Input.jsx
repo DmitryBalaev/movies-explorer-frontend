@@ -9,6 +9,7 @@ function Input({
   handleChange,
   values,
   errors,
+  disabled,
 }) {
   return (
     <label className="input">
@@ -21,6 +22,7 @@ function Input({
         maxLength={maxLength || null}
         onChange={handleChange}
         value={values[`${name}`] ?? ""}
+        disabled={disabled}
         required
       />
       <span className="input__error">{errors[`${name}`]}</span>

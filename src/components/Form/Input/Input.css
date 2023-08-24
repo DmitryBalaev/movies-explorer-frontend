@@ -29,6 +29,12 @@
   border: 1px solid white;
 }
 
+.input__input:disabled {
+  background-color: var(--color-background-gray20);
+  color: var(--color-background-gray31);
+  cursor: not-allowed;
+}
+
 .input__placeholder {
   color: var(--color-text-gray);
   font-size: 10px;
